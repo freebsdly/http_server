@@ -33,6 +33,12 @@ impl From<Error> for QueryServerError {
     }
 }
 
+impl From<sqlx::Error> for QueryServerError {
+    fn from(value: sqlx::Error) -> Self {
+        QueryServerError::DBError(value.to_string())
+    }
+}
+
 pub struct QueryServer {
     cfg: AllConfig,
     db: DBClient,
@@ -50,6 +56,7 @@ impl QueryServer {
     }
 
     pub async fn run(&self) -> Result<(), QueryServerError> {
+        self.db.connect().await?;
         let addr = format!("{}:{}", self.cfg.http_server().host(), self.cfg.http_server().port());
         let routes = || {
             App::new()
