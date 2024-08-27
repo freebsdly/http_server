@@ -1,0 +1,12 @@
+[package]
+name = "http_server"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+actix-web = "4.8.0"
+clap = { version = "4.5.9", features = ["derive", "env"] }
+config = "0.14.0"
+getset = "0.1.2"
+serde = { version = "1.0.204", features = ["derive"] }
+thiserror = "1.0.62"
